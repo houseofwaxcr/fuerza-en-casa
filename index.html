@@ -7,273 +7,215 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
-<meta name="theme-color" content="#F1F4F7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0E141A" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="EEC">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
-:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
-body { margin: 0; }
+:root { color-scheme: dark; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html, body { margin: 0; background: #000; }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
 </style>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
 <style>
-/* Layout: cuerpo fijo arriba (móvil) o a la izquierda (escritorio); ejercicios en lista al lado. Azul de disco para la interfaz, naranja para músculos. */
+/* Diseño oscuro a propósito (como una app nativa de iPhone en modo oscuro): fondo negro,
+   el cuerpo es lo principal y los ejercicios van en una lista agrupada estilo Ajustes. */
 :root {
-  --bg: #F1F4F7;
-  --surface: #FFFFFF;
-  --ink: #16202A;
-  --muted: #5A6775;
-  --line: #D8DFE6;
-  --accent: #2549A8;
-  --accent-ink: #FFFFFF;
-  --accent-soft: #E3E9F8;
-  --hot: #E2611B;
-  --warm: #F4BE95;
-  --muscle: #A9B5C1;
-  --part: #C6CFD8;
-  --part-line: #B9C3CD;
-  --ok: #1F8A5B;
-  --font-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
-  --font-body: "Barlow", -apple-system, "Segoe UI", Roboto, sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0E141A; --surface: #17202A; --ink: #E7ECF1; --muted: #93A0AD; --line: #2A3643;
-    --accent: #86A6FF; --accent-ink: #0E141A; --accent-soft: #1E2B47;
-    --hot: #FF7B35; --warm: #8C4E2B; --muscle: #4A5866; --part: #34404C; --part-line: #3B4856; --ok: #4CC58C;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0E141A; --surface: #17202A; --ink: #E7ECF1; --muted: #93A0AD; --line: #2A3643;
-  --accent: #86A6FF; --accent-ink: #0E141A; --accent-soft: #1E2B47;
-  --hot: #FF7B35; --warm: #8C4E2B; --muscle: #4A5866; --part: #34404C; --part-line: #3B4856; --ok: #4CC58C;
+  --bg: #000000;
+  --group: #1C1C1E;
+  --group-hi: #2C2C2E;
+  --sep: #38383A;
+  --label: #FFFFFF;
+  --label-2: #98989F;
+  --label-3: #5A5A5F;
+  --tint: #0A84FF;
+  --ok: #30D158;
+  --hit: #FF375F;
+  --hit-2: #8A3446;
+  --flesh: #4A4A4E;
+  --outline: #E9E9EE;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
-  background: var(--bg); color: var(--ink);
-  font-family: var(--font-body); font-size: 16px; line-height: 1.45;
+  background: var(--bg); color: var(--label);
+  font: 17px/1.35 var(--font);
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
 body::before {
   content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
   z-index: 10; background: var(--bg);
 }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--tint); outline-offset: 2px; border-radius: 6px; }
+
 .wrap {
-  max-width: 1000px; margin: 0 auto;
+  max-width: 1040px; margin: 0 auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 20px 120px;
-}
-h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: 0.01em; }
-h1 { font-size: 2.1rem; line-height: 1; text-transform: uppercase; }
-h2 { font-size: 1.6rem; line-height: 1.05; }
-h3 { font-size: 1.25rem; line-height: 1.1; }
-button { font: inherit; color: inherit; }
-button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-
-header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; }
-.gear { display: flex; flex-wrap: wrap; gap: 6px; }
-.gear span {
-  font-size: 0.8rem; font-weight: 600; padding: 3px 9px; border-radius: 99px;
-  background: var(--surface); border: 1px solid var(--line); color: var(--muted);
-  font-variant-numeric: tabular-nums; white-space: nowrap;
+  padding-block: 10px 130px;
 }
 
-.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 18px; }
-.tab {
-  border: 1px solid var(--line); background: var(--surface); border-radius: 10px;
-  padding: 8px 6px; cursor: pointer; text-align: center; display: grid; gap: 1px;
-}
-.tab b { font-family: var(--font-display); font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.04em; }
-.tab small { font-size: 0.75rem; color: var(--muted); }
-.tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.tab[aria-selected="true"] small { color: inherit; opacity: 0.85; }
-.tab .today { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+header h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: 0.01em; line-height: 1.1; }
+header p { margin: 2px 0 0; color: var(--label-2); font-size: 15px; }
 
-.note {
-  margin-top: 12px; padding: 10px 12px; border-radius: 10px;
-  background: var(--accent-soft); font-size: 0.92rem;
+.seg {
+  display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px;
+  background: rgba(118, 118, 128, 0.24); border-radius: 9px; padding: 2px;
 }
+.seg button {
+  font-size: 13px; font-weight: 600; padding: 6px 4px; border-radius: 7px; color: var(--label);
+}
+.seg button[aria-selected="true"] { background: #636366; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25); }
 
-.layout { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
+.layout { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 10px; }
+
 .figure {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-  background: var(--bg); padding-block: 8px 10px; border-bottom: 1px solid var(--line);
+  background: var(--bg); padding-block: 8px 10px;
+  border-bottom: 0.5px solid var(--sep);
 }
-.figure svg { display: block; width: 100%; max-width: 100%; height: 190px; }
-.figure .caption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px; font-size: 0.85rem; }
-.figure .caption strong { font-weight: 600; }
-.legend { display: flex; gap: 12px; color: var(--muted); font-size: 0.78rem; }
-.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 4px; }
-.dot.p { background: var(--hot); }
-.dot.s { background: var(--warm); }
-.show-all {
-  border: 0; background: none; color: var(--accent); font-weight: 600; cursor: pointer; padding: 2px 0;
-  font-size: 0.85rem; text-decoration: underline; text-underline-offset: 3px;
-}
+.figure svg { display: block; width: 100%; height: 250px; }
+.hits { margin-top: 6px; display: grid; gap: 1px; text-align: center; font-size: 15px; min-height: 40px; }
+.hits .main { color: var(--hit); font-weight: 600; display: flex; flex-wrap: wrap; justify-content: center; gap: 0 14px; }
+.hits .help { color: var(--label-2); font-size: 13px; }
+.hits button { color: var(--tint); font-size: 13px; justify-self: center; margin-top: 2px; }
 
-.figure { --figbg: var(--bg); }
-.m { fill: var(--muscle); stroke: var(--figbg); stroke-width: 1.6; stroke-linejoin: round; transition: fill 0.25s; }
-.m.s { fill: var(--warm); }
-.m.p { fill: var(--hot); }
-.part { fill: var(--part); }
-.cut { fill: none; stroke: var(--figbg); stroke-width: 1.4; stroke-linecap: round; opacity: 0.8; }
-.fig-label { fill: var(--muted); font: 600 11px var(--font-body); letter-spacing: 0.1em; text-transform: uppercase; }
+/* cuerpo: halo blanco de contorno, relleno gris y líneas blancas entre músculos */
+.halo { fill: var(--outline); stroke: var(--outline); stroke-width: 5; stroke-linejoin: round; }
+.fill { fill: var(--flesh); stroke: var(--flesh); stroke-width: 3.4; stroke-linejoin: round; }
+.pc { fill: var(--flesh); stroke: var(--outline); stroke-width: 1.1; stroke-linejoin: round; transition: fill 0.2s; }
+.pc.s { fill: var(--hit-2); }
+.pc.p { fill: var(--hit); }
+.mark { fill: none; stroke: var(--outline); stroke-width: 1; stroke-linecap: round; }
+.fig-label { fill: var(--label-3); font: 600 10px var(--font); letter-spacing: 0.12em; }
 
-.summary { display: grid; gap: 6px; }
-.summary .meta { color: var(--muted); font-size: 0.92rem; font-variant-numeric: tabular-nums; }
-.progress { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 4px; }
-.progress i { display: block; height: 100%; width: 0; background: var(--ok); transition: width 0.3s; }
-.done-msg { color: var(--ok); font-weight: 600; }
+.day h2 { margin: 0; font-size: 22px; font-weight: 700; }
+.day .meta { color: var(--label-2); font-size: 15px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.day .meta b { color: var(--ok); font-weight: 600; }
 
-.warm {
-  margin-top: 4px; border: 1px dashed var(--part-line); border-radius: 12px; padding: 12px 14px;
+.section-title { margin: 18px 16px 6px; color: var(--label-2); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; }
+.group { list-style: none; margin: 0; padding: 0; background: var(--group); border-radius: 12px; overflow: hidden; }
+.group > li { position: relative; }
+.group > li + li::before {
+  content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 0.5px; background: var(--sep);
 }
-.warm h3 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
-.warm ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 2px; font-size: 0.94rem; }
+.row-btn {
+  width: 100%; display: grid; grid-template-columns: 1fr auto 14px; align-items: center; gap: 10px;
+  padding: 11px 14px 11px 16px; text-align: left; min-height: 56px;
+}
+.row-btn:active { background: var(--group-hi); }
+.row-main { min-width: 0; display: grid; gap: 1px; }
+.row-name { font-size: 17px; }
+.row-sub { font-size: 14px; color: var(--label-2); }
+.row-dose { font-size: 17px; color: var(--label-2); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.row-dose small { display: block; font-size: 12px; }
+.row-dose.done { color: var(--ok); }
+.chev { width: 8px; height: 14px; color: var(--label-3); transition: transform 0.2s; justify-self: end; }
+li.open .chev { transform: rotate(90deg); }
+li.open .row-btn { background: var(--group-hi); }
 
-.list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: ex; }
-.ex {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
-  overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s;
-}
-.ex.sel { border-color: var(--hot); box-shadow: 0 0 0 2px color-mix(in srgb, var(--hot) 35%, transparent); }
-.ex.finished .ex-name { text-decoration: line-through; text-decoration-color: var(--ok); text-decoration-thickness: 2px; }
-.ex-head {
-  display: grid; grid-template-columns: auto 1fr auto; gap: 4px 12px; align-items: start;
-  width: 100%; text-align: left; border: 0; background: none; padding: 14px 14px 8px; cursor: pointer;
-}
-.num {
-  font-family: var(--font-display); font-size: 1.5rem; line-height: 1; color: var(--muted);
-  font-variant-numeric: tabular-nums; min-width: 1.2em;
-}
-.ex-title { min-width: 0; }
-.ex-name { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.05; font-weight: 700; }
-.ex-gear { color: var(--muted); font-size: 0.88rem; margin-top: 2px; }
-.dose {
-  font-family: var(--font-display); font-size: 1.3rem; line-height: 1; white-space: nowrap; text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-.dose small { display: block; font-family: var(--font-body); font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
-.ex-body { padding: 0 14px 14px; display: grid; gap: 10px; }
-.chips { display: flex; flex-wrap: wrap; gap: 5px; }
-.chip { font-size: 0.78rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line); }
-.chip.p { background: color-mix(in srgb, var(--hot) 16%, transparent); border-color: color-mix(in srgb, var(--hot) 45%, transparent); }
-.chip.s { color: var(--muted); }
-.tip { margin: 0; font-size: 0.93rem; color: var(--ink); }
-.tip b { font-weight: 600; }
-.sets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.sets > span { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-right: 2px; }
+.detail { padding: 4px 16px 16px; display: grid; gap: 12px; background: var(--group-hi); }
+.detail p { margin: 0; font-size: 15px; line-height: 1.45; max-width: 60ch; }
+.detail .rest { color: var(--label-2); font-size: 13px; }
+.sets { display: flex; flex-wrap: wrap; gap: 10px; }
 .set {
-  width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--line); background: var(--bg);
-  font-weight: 600; cursor: pointer; font-variant-numeric: tabular-nums;
+  width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid #48484A;
+  font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums;
 }
-.set[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.set[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: #000; }
 
-.foot { margin-top: 20px; color: var(--muted); font-size: 0.9rem; display: grid; gap: 8px; }
-.foot p { margin: 0; max-width: 65ch; }
-.reset { justify-self: start; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 0.88rem; }
+.warm ul { margin: 0; padding: 0 16px 14px 34px; color: var(--label); font-size: 15px; display: grid; gap: 4px; background: var(--group-hi); }
+
+.foot { margin: 8px 16px 0; color: var(--label-2); font-size: 13px; display: grid; gap: 8px; }
+.foot p { margin: 0; max-width: 62ch; }
+.foot button { color: var(--tint); justify-self: start; font-size: 15px; padding: 6px 0; }
+.note { color: var(--label-2); }
 
 .timer {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-  background: var(--ink); color: var(--bg);
-  padding-top: 12px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: rgba(28, 28, 30, 0.94); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  border-top: 0.5px solid var(--sep);
+  padding-top: 10px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-.timer-in { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
-.timer .label { flex: 1; min-width: 0; }
-.timer .label small { display: block; opacity: 0.75; font-size: 0.8rem; }
-.timer .clock { font-family: var(--font-display); font-size: 2rem; line-height: 1; font-variant-numeric: tabular-nums; }
-.timer button {
-  border: 1px solid color-mix(in srgb, var(--bg) 40%, transparent); background: none; color: var(--bg);
-  border-radius: 8px; padding: 8px 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem;
-}
-.timer .bar { position: absolute; left: 0; top: 0; height: 3px; background: var(--hot); width: 100%; transform-origin: left; }
-.timer.go { background: var(--ok); }
+.timer-in { max-width: 1040px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+.clock { font-size: 34px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 3.2ch; }
+.timer .label { flex: 1; min-width: 0; font-size: 15px; }
+.timer .label small { display: block; color: var(--label-2); font-size: 13px; }
+.timer button { color: var(--tint); font-size: 17px; padding: 8px 4px; }
+.timer.go .clock { color: var(--ok); }
+.tbar { position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: var(--hit); transform-origin: left; }
 
-@media (min-width: 780px) {
-  h1 { font-size: 2.6rem; }
-  .layout { grid-template-columns: 300px 1fr; gap: 28px; align-items: start; }
-  .figure { --figbg: var(--surface); top: calc(env(safe-area-inset-top, 0px) + 16px); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 12px; }
-  .figure svg { height: 330px; }
+@media (min-width: 820px) {
+  .layout { grid-template-columns: 400px 1fr; gap: 32px; align-items: start; }
+  .figure { top: calc(env(safe-area-inset-top, 0px) + 12px); border-bottom: 0; }
+  .figure svg { height: 560px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
 
 
 <div class="wrap">
-  <header class="top">
-    <div>
-      <h1>EEC</h1>
-      <div style="color:var(--muted);font-size:0.95rem;margin-top:4px">Rutinas cortas para empezar · Lunes, miércoles y viernes</div>
-    </div>
-    <div class="gear" aria-label="Tu equipo">
-      <span>Kettlebell 14 kg</span>
-      <span>Mancuernas 5 · 10 · 15 lb (pares)</span>
-      <span>Disco 10 lb</span>
-    </div>
+  <header>
+    <h1>EEC</h1>
+    <p id="today"></p>
   </header>
 
-  <nav class="tabs" role="tablist" id="tabs"></nav>
-  <div class="note" id="note" hidden></div>
+  <div class="seg" role="tablist" id="tabs"></div>
 
   <div class="layout">
     <aside class="figure" aria-label="Músculos que trabajas">
-      <svg id="body" viewBox="0 0 420 390" role="img" aria-label="Cuerpo de frente y de espaldas"></svg>
-      <div class="caption">
-        <span>Viendo: <strong id="viewing"></strong> <button class="show-all" id="showAll" hidden>Ver todo el día</button></span>
-        <span class="legend"><span><i class="dot p"></i>Principal</span><span><i class="dot s"></i>Ayuda</span></span>
-      </div>
+      <svg id="body" viewBox="0 0 420 424" role="img" aria-label="Cuerpo de frente y de espaldas"></svg>
+      <div class="hits" id="hits"></div>
     </aside>
 
-    <main style="display:grid;gap:14px;min-width:0">
-      <section class="summary">
+    <main style="min-width:0">
+      <section class="day">
         <h2 id="focus"></h2>
-        <div class="meta" id="meta"></div>
-        <div class="progress" aria-hidden="true"><i id="bar"></i></div>
-        <div class="done-msg" id="doneMsg" hidden>Sesión terminada. Buen trabajo.</div>
+        <div class="meta"><span id="meta"></span><span id="count"></span></div>
       </section>
 
-      <section class="warm">
-        <h3>Calentamiento · 3 min</h3>
-        <ul>
-          <li>Marcha en el sitio, 1 minuto</li>
-          <li>Círculos de brazos, 30 segundos hacia cada lado</li>
-          <li>10 sentadillas sin peso</li>
-          <li>10 bisagras de cadera sin peso (manos en la cadera, inclina el torso con la espalda recta)</li>
-        </ul>
-      </section>
+      <div class="section-title">Antes de empezar</div>
+      <ul class="group warm">
+        <li id="warm">
+          <button class="row-btn" aria-expanded="false">
+            <span class="row-main"><span class="row-name">Calentamiento</span><span class="row-sub">Para que el cuerpo entre en calor</span></span>
+            <span class="row-dose">3 min</span>
+            <svg class="chev" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <ul hidden>
+            <li>Marcha en el sitio, 1 minuto</li>
+            <li>Círculos de brazos, 30 segundos hacia cada lado</li>
+            <li>10 sentadillas a la silla sin peso</li>
+            <li>10 inclinaciones de cadera sin peso, manos en la cadera y espalda recta</li>
+          </ul>
+        </li>
+      </ul>
 
-      <ol class="list" id="list"></ol>
+      <div class="section-title">Ejercicios</div>
+      <ul class="group" id="list"></ul>
 
-      <section class="foot">
-        <p>Toca un ejercicio para ver en el cuerpo qué músculos usa. Toca el círculo de cada serie al terminarla y arranca el descanso.</p>
-        <p><b>Cómo subir:</b> las primeras 2 semanas hazlo tal cual. Cuando la última serie se sienta fácil y podrías hacer 4 repeticiones más, usa la mancuerna siguiente o añade una serie.</p>
-        <p>Si algo duele (dolor punzante, no cansancio), para ese ejercicio.</p>
-        <button class="reset" id="reset">Reiniciar las series de hoy</button>
-      </section>
+      <div class="foot">
+        <p>Toca un ejercicio para ver qué músculos usa. Al terminar cada serie, toca su número y empieza el descanso.</p>
+        <p>Las primeras 2 semanas hazlo tal cual. Cuando la última serie te salga fácil, usa la pesa siguiente o añade una serie. Si algo duele de forma punzante, para ese ejercicio.</p>
+        <button id="reset">Borrar las series marcadas hoy</button>
+      </div>
     </main>
   </div>
 </div>
 
 <div class="timer" id="timer" hidden>
-  <div class="bar" id="tbar"></div>
+  <div class="tbar" id="tbar"></div>
   <div class="timer-in">
     <div class="clock" id="clock">0:45</div>
     <div class="label"><span id="tlabel">Descansa</span><small id="tsub"></small></div>
@@ -286,16 +228,16 @@ header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-cont
 const MUSCLES = {
   pecho: 'Pecho', hombros: 'Hombros', biceps: 'Bíceps', triceps: 'Tríceps',
   abdomen: 'Abdomen', oblicuos: 'Oblicuos', cuadriceps: 'Cuádriceps',
-  trapecio: 'Trapecio', dorsales: 'Espalda (dorsales)', lumbar: 'Zona lumbar',
+  trapecio: 'Trapecio', dorsales: 'Espalda', lumbar: 'Zona lumbar',
   gluteos: 'Glúteos', isquios: 'Isquiotibiales', pantorrillas: 'Pantorrillas'
 };
 
 const DAYS = [
-  { key: 'lunes', name: 'Lunes', short: 'Lun', dow: 1, focus: 'Piernas y glúteos', ex: [
+  { key: 'lunes', name: 'Lunes', dow: 1, focus: 'Piernas y glúteos', ex: [
     { id: 'goblet', name: 'Sentadilla a la silla', gear: 'Kettlebell 14 kg al pecho (o mancuerna 15 lb si pesa mucho)', sets: 3, reps: 8, unit: 'reps', rest: 60,
       p: ['cuadriceps', 'gluteos'], s: ['abdomen', 'lumbar'],
       tip: 'Ponte delante de una silla con la pesa pegada al pecho. Siéntate despacio, toca la silla y levántate empujando con los talones. Rodillas apuntando hacia los pies.' },
-    { id: 'rdl', name: 'Peso muerto rumano', gear: 'Mancuernas 15 lb (una en cada mano)', sets: 2, reps: 10, unit: 'reps', rest: 45,
+    { id: 'rdl', name: 'Peso muerto rumano', gear: 'Mancuernas 15 lb, una en cada mano', sets: 2, reps: 10, unit: 'reps', rest: 45,
       p: ['isquios', 'gluteos'], s: ['lumbar', 'trapecio'],
       tip: 'Rodillas apenas dobladas. Lleva la cadera hacia atrás con la espalda recta; las pesas bajan rozando las piernas hasta media espinilla.' },
     { id: 'puente', name: 'Puente de glúteo', gear: 'Disco 10 lb sobre la cadera, en la esterilla', sets: 2, reps: 12, unit: 'reps', rest: 45,
@@ -305,16 +247,16 @@ const DAYS = [
       p: ['pantorrillas'], s: [],
       tip: 'De pie, sube a puntillas despacio y baja. Si te tambaleas, suelta una pesa y apoya esa mano en la pared.' }
   ]},
-  { key: 'miercoles', name: 'Miércoles', short: 'Mié', dow: 3, focus: 'Pecho, espalda y brazos', ex: [
-    { id: 'remo1', name: 'Remo a una mano', gear: 'Mancuerna 15 lb, apoyado en una silla', sets: 3, reps: 10, unit: 'por brazo', side: true, rest: 45,
+  { key: 'miercoles', name: 'Miércoles', dow: 3, focus: 'Pecho, espalda y brazos', ex: [
+    { id: 'remo1', name: 'Remo a una mano', gear: 'Mancuerna 15 lb, apoyada en una silla', sets: 3, reps: 10, unit: 'por brazo', side: true, rest: 45,
       p: ['dorsales'], s: ['biceps', 'trapecio', 'hombros'],
       tip: 'Mano y rodilla en la silla, espalda plana. Lleva el codo hacia tu cadera, no hacia arriba.' },
     { id: 'pressuelo', name: 'Press de pecho en el suelo', gear: 'Mancuernas 10 lb (15 lb cuando sea fácil)', sets: 3, reps: 10, unit: 'reps', rest: 45,
       p: ['pecho'], s: ['triceps', 'hombros'],
       tip: 'Boca arriba en la esterilla, rodillas dobladas. Baja hasta que los codos toquen el suelo y empuja hacia arriba. Trabaja lo mismo que una flexión, sin tener que cargar tu peso.' },
-    { id: 'pressh', name: 'Press de hombros sentado', gear: 'Mancuernas 5 lb (10 lb cuando sea fácil)', sets: 2, reps: 10, unit: 'reps', rest: 45,
+    { id: 'pressh', name: 'Press de hombros sentada', gear: 'Mancuernas 5 lb (10 lb cuando sea fácil)', sets: 2, reps: 10, unit: 'reps', rest: 45,
       p: ['hombros'], s: ['triceps', 'trapecio'],
-      tip: 'Siéntate derecho. Empuja las pesas sobre la cabeza sin arquear la espalda baja.' },
+      tip: 'Siéntate derecha. Empuja las pesas sobre la cabeza sin arquear la espalda baja.' },
     { id: 'curl', name: 'Curl de bíceps', gear: 'Mancuernas 10 lb', sets: 2, reps: 12, unit: 'reps', rest: 30,
       p: ['biceps'], s: [],
       tip: 'Codos pegados al cuerpo. Sube despacio y baja aún más despacio, sin balancearte.' },
@@ -322,7 +264,7 @@ const DAYS = [
       p: ['triceps'], s: ['hombros'],
       tip: 'Disco detrás de la cabeza, codos apuntando al techo. Estira los brazos hacia arriba.' }
   ]},
-  { key: 'viernes', name: 'Viernes', short: 'Vie', dow: 5, focus: 'Cuerpo completo y abdomen', ex: [
+  { key: 'viernes', name: 'Viernes', dow: 5, focus: 'Cuerpo completo y abdomen', ex: [
     { id: 'pmkb', name: 'Peso muerto con kettlebell', gear: 'Kettlebell 14 kg', sets: 3, reps: 10, unit: 'reps', rest: 60,
       p: ['gluteos', 'isquios'], s: ['lumbar', 'cuadriceps', 'trapecio'],
       tip: 'Kettlebell en el suelo entre los pies. Lleva la cadera hacia atrás con la espalda recta, agárrala y levántate apretando glúteos. Es la base del swing: cuando te salga fácil, te lo cambio por swing.' },
@@ -341,81 +283,84 @@ const DAYS = [
   ]}
 ];
 
-/* --- Cuerpo (frente a la izquierda, espalda a la derecha) ---
-   Cada forma se define con puntos del lado izquierdo y se refleja al derecho;
-   las curvas se suavizan con Catmull-Rom para que el cuerpo no se vea en bloques. */
+/* --- Cuerpo ---
+   Cada pieza se define con puntos del lado izquierdo de la figura y se refleja al derecho
+   (las piezas "centro" no se reflejan). Las curvas se suavizan con Catmull-Rom. */
 function smooth(pts) {
-  const n = pts.length, f = v => v.toFixed(1);
+  const n = pts.length, f = v => +v.toFixed(1);
   let d = `M${f(pts[0][0])} ${f(pts[0][1])}`;
   for (let i = 0; i < n; i++) {
     const p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n];
-    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-    d += ` C${f(c1[0])} ${f(c1[1])} ${f(c2[0])} ${f(c2[1])} ${f(p2[0])} ${f(p2[1])}`;
+    d += ` C${f(p1[0] + (p2[0] - p0[0]) / 6)} ${f(p1[1] + (p2[1] - p0[1]) / 6)} ${f(p2[0] - (p3[0] - p1[0]) / 6)} ${f(p2[1] - (p3[1] - p1[1]) / 6)} ${f(p2[0])} ${f(p2[1])}`;
   }
   return d + 'Z';
 }
 const mirror = pts => pts.map(([x, y]) => [200 - x, y]);
 
-const SILHOUETTE = {
-  center: [
-    [[100, 60], [122, 62], [140, 70], [146, 86], [140, 112], [132, 140], [130, 165], [134, 186], [128, 202], [100, 208], [72, 202], [66, 186], [70, 165], [68, 140], [60, 112], [54, 86], [60, 70], [78, 62]],
-    [[91, 46], [109, 46], [111, 66], [89, 66]]
-  ],
-  sides: [
-    [[56, 72], [68, 80], [66, 110], [62, 132], [50, 134], [42, 112], [44, 86]],
-    [[48, 128], [62, 132], [58, 160], [53, 184], [42, 184], [38, 160], [42, 138]],
-    [[46, 182], [52, 186], [52, 200], [46, 206], [40, 200], [40, 188]],
-    [[70, 186], [98, 200], [97, 232], [92, 268], [78, 274], [70, 252], [66, 216]],
-    [[76, 266], [94, 266], [93, 302], [89, 346], [79, 346], [74, 306], [72, 284]],
-    [[78, 344], [90, 344], [95, 354], [88, 360], [74, 358], [73, 350]]
-  ]
+const ARM = {
+  forearm: [[44, 152], [54, 155], [59, 170], [52, 196], [44, 214], [34, 214], [31, 196], [35, 170]],
+  hand: [[34, 213], [45, 213], [47, 226], [43, 244], [35, 247], [28, 238], [29, 222]],
+  delt: [[64, 72], [78, 72], [80, 82], [73, 98], [63, 112], [52, 115], [45, 101], [49, 84]]
 };
-const MUSCLE_SHAPES = {
-  front: [
-    ['pecho', [[98, 72], [98, 104], [84, 110], [70, 104], [66, 90], [72, 76], [86, 70]]],
-    ['oblicuos', [[70, 114], [83, 116], [84, 170], [76, 174], [70, 152], [68, 130]]],
-    ['biceps', [[52, 106], [64, 100], [64, 118], [59, 130], [50, 130], [46, 118]]],
-    ['cuadriceps', [[73, 196], [96, 207], [96, 232], [92, 260], [82, 266], [74, 250], [69, 222]]],
-    ['hombros', [[58, 68], [72, 66], [74, 78], [66, 98], [52, 104], [46, 90], [50, 76]]]
-  ],
-  frontCenter: [
-    ['abdomen', [[88, 113], [112, 113], [114, 140], [113, 172], [100, 194], [87, 172], [86, 140]]]
-  ],
-  back: [
-    ['dorsales', [[69, 84], [86, 86], [98, 122], [98, 152], [86, 158], [76, 142], [67, 112]]],
-    ['triceps', [[47, 92], [60, 96], [64, 112], [60, 130], [50, 130], [44, 112]]],
-    ['gluteos', [[98, 178], [98, 212], [86, 219], [72, 211], [68, 194], [76, 182], [88, 177]]],
-    ['isquios', [[72, 216], [96, 220], [95, 246], [90, 264], [80, 266], [72, 250], [68, 230]]],
-    ['pantorrillas', [[76, 272], [92, 272], [94, 296], [88, 320], [80, 320], [74, 298]]],
-    ['hombros', [[58, 68], [72, 66], [74, 78], [66, 98], [52, 104], [46, 90], [50, 76]]]
-  ],
-  backCenter: [
-    ['lumbar', [[88, 152], [112, 152], [116, 170], [100, 178], [84, 170]]],
-    ['trapecio', [[100, 50], [112, 57], [132, 68], [118, 80], [108, 102], [100, 120], [92, 102], [82, 80], [68, 68], [88, 57]]]
-  ]
+const LEG = {
+  knee: [[72, 300], [88, 301], [91, 312], [82, 320], [71, 313]],
+  foot: [[75, 384], [88, 384], [93, 398], [86, 406], [71, 404], [71, 393]]
 };
 
-function figure(x, back) {
-  let s = `<ellipse class="part" cx="100" cy="30" rx="15" ry="19"/>`;
-  SILHOUETTE.center.forEach(p => { s += `<path class="part" d="${smooth(p)}"/>`; });
-  SILHOUETTE.sides.forEach(p => { s += `<path class="part" d="${smooth(p)}"/><path class="part" d="${smooth(mirror(p))}"/>`; });
-  const side = back ? MUSCLE_SHAPES.back : MUSCLE_SHAPES.front;
-  const center = back ? MUSCLE_SHAPES.backCenter : MUSCLE_SHAPES.frontCenter;
-  side.forEach(([id, p]) => {
-    s += `<path class="m" data-m="${id}" d="${smooth(p)}"/><path class="m" data-m="${id}" d="${smooth(mirror(p))}"/>`;
+// [músculo o null, puntos, centro?]
+const FRONT = [
+  [null, [[88, 46], [112, 46], [113, 60], [100, 66], [87, 60]], true],
+  ['trapecio', [[87, 56], [91, 66], [80, 72], [64, 73], [76, 64]]],
+  ['hombros', ARM.delt],
+  ['pecho', [[99, 75], [99, 116], [90, 122], [76, 121], [66, 113], [73, 99], [80, 84], [84, 76]]],
+  ['biceps', [[52, 117], [63, 114], [67, 125], [63, 145], [53, 154], [44, 150], [42, 133], [46, 121]]],
+  [null, ARM.forearm],
+  [null, ARM.hand],
+  ['oblicuos', [[71, 122], [86, 125], [86, 168], [83, 192], [75, 196], [69, 180], [69, 150]]],
+  ['abdomen', [[88, 124], [112, 124], [114, 160], [114, 192], [100, 212], [86, 192], [86, 160]], true],
+  [null, [[69, 196], [84, 194], [98, 214], [98, 226], [84, 222], [67, 207]]],
+  ['cuadriceps', [[67, 206], [84, 222], [98, 228], [97, 252], [92, 288], [86, 301], [73, 301], [65, 282], [61, 248], [62, 222]]],
+  [null, LEG.knee],
+  [null, [[71, 314], [82, 321], [91, 314], [91, 340], [87, 380], [77, 384], [71, 352], [69, 330]]],
+  [null, LEG.foot]
+];
+const BACK = [
+  [null, [[89, 46], [111, 46], [111, 58], [89, 58]], true],
+  ['trapecio', [[100, 50], [110, 52], [116, 61], [136, 72], [122, 81], [108, 104], [100, 128], [92, 104], [78, 81], [64, 72], [84, 61], [90, 52]], true],
+  ['hombros', ARM.delt],
+  ['dorsales', [[78, 82], [92, 105], [86, 113], [72, 109], [64, 101], [66, 86]]],
+  ['dorsales', [[64, 103], [72, 111], [86, 115], [98, 131], [98, 162], [90, 168], [79, 164], [73, 148], [68, 124]]],
+  ['triceps', [[52, 117], [63, 114], [67, 127], [63, 147], [53, 154], [44, 150], [42, 133], [46, 121]]],
+  [null, ARM.forearm],
+  [null, ARM.hand],
+  ['oblicuos', [[69, 140], [74, 152], [80, 166], [83, 190], [75, 197], [68, 188], [68, 162]]],
+  ['lumbar', [[88, 167], [112, 167], [118, 190], [100, 199], [82, 190]], true],
+  ['gluteos', [[99, 199], [99, 236], [88, 244], [74, 242], [66, 226], [67, 206], [76, 197], [86, 194]]],
+  ['isquios', [[66, 238], [76, 244], [98, 240], [97, 262], [92, 290], [85, 300], [73, 300], [65, 282], [62, 258]]],
+  [null, LEG.knee],
+  ['pantorrillas', [[71, 313], [82, 318], [91, 313], [93, 332], [88, 357], [80, 361], [72, 350], [68, 330]]],
+  [null, [[74, 356], [88, 356], [87, 382], [77, 384]]],
+  [null, LEG.foot]
+];
+
+function figure(x, pieces, back) {
+  const shapes = [];
+  pieces.forEach(([m, pts, center]) => {
+    shapes.push([m, smooth(pts)]);
+    if (!center) shapes.push([m, smooth(mirror(pts))]);
   });
-  center.forEach(([id, p]) => { s += `<path class="m" data-m="${id}" d="${smooth(p)}"/>`; });
-  if (!back) {
-    // marcas del abdomen
-    s += `<path class="cut" d="M100 116 V188 M89 133 H111 M88 152 H112 M89 170 H111"/>`;
-  } else {
-    s += `<path class="cut" d="M100 122 V150"/>`;
-  }
-  s += `<text class="fig-label" x="100" y="380" text-anchor="middle">${back ? 'Espalda' : 'Frente'}</text>`;
+  const head = '<ellipse cx="100" cy="27" rx="16" ry="21"/>';
+  const all = (cls) => head.replace('/>', ` class="${cls}"/>`) + shapes.map(([, d]) => `<path class="${cls}" d="${d}"/>`).join('');
+  let s = all('halo') + all('fill');
+  s += head.replace('/>', ' class="pc"/>');
+  s += shapes.map(([m, d]) => `<path class="pc"${m ? ` data-m="${m}"` : ''} d="${d}"/>`).join('');
+  s += back
+    ? '<path class="mark" d="M100 130 V165"/>'
+    : '<path class="mark" d="M100 126 V206 M88 142 Q100 145 112 142 M87 160 Q100 163 113 160 M87 178 Q100 181 113 178"/>';
+  s += `<text class="fig-label" x="100" y="420" text-anchor="middle">${back ? 'ESPALDA' : 'FRENTE'}</text>`;
   return `<g transform="translate(${x} 0)">${s}</g>`;
 }
-document.getElementById('body').innerHTML = figure(0, false) + figure(220, true);
+document.getElementById('body').innerHTML = figure(0, FRONT, false) + figure(220, BACK, true);
 
 /* --- Estado --- */
 const store = {
@@ -433,14 +378,12 @@ let selected = null;
 
 function doneFor(day) {
   const p = progress[day.key];
-  if (!p || p.date !== todayISO) return {};
-  return p.done || {};
+  return p && p.date === todayISO ? (p.done || {}) : {};
 }
 function saveDone(day, done) {
   progress[day.key] = { date: todayISO, done };
   store.set('fec-progress', progress);
 }
-
 function minutes(day) {
   let secs = 180;
   for (const e of day.ex) {
@@ -450,39 +393,48 @@ function minutes(day) {
   return Math.round(secs / 60);
 }
 
-/* --- Render --- */
+const WEEKDAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+document.getElementById('today').textContent = todayDay
+  ? `Hoy, ${WEEKDAYS[dow]}, toca entrenar`
+  : `Hoy, ${WEEKDAYS[dow]}, descansas. Próxima sesión: ${nextDay.name.toLowerCase()}`;
+
 const tabsEl = document.getElementById('tabs');
-tabsEl.innerHTML = DAYS.map(d => `
-  <button class="tab" role="tab" data-day="${d.key}">
-    <b>${d.short}</b>
-    <small>${d.focus}</small>
-    ${d === todayDay ? '<span class="today">Hoy</span>' : ''}
-  </button>`).join('');
+tabsEl.innerHTML = DAYS.map(d => `<button role="tab" data-day="${d.key}">${d.name}</button>`).join('');
 tabsEl.addEventListener('click', e => {
-  const b = e.target.closest('.tab'); if (!b) return;
+  const b = e.target.closest('button'); if (!b) return;
   current = DAYS.find(d => d.key === b.dataset.day); selected = null; render();
 });
 
-const note = document.getElementById('note');
-if (!todayDay) {
-  const names = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-  note.textContent = `Hoy es ${names[dow]}: día de descanso. Tu próxima sesión es el ${nextDay.name.toLowerCase()}. Caminar un rato te ayuda a recuperarte.`;
-  note.hidden = false;
-}
+const CHEV = '<svg class="chev" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function paint() {
-  let p = new Set(), s = new Set();
+  const p = new Set(), s = new Set();
   const list = selected ? [current.ex.find(e => e.id === selected)] : current.ex;
-  list.forEach(e => { e.p.forEach(x => p.add(x)); e.s.forEach(x => s.add(x)); });
+  // en la vista del día solo se pintan los principales; los que ayudan, al abrir un ejercicio
+  list.forEach(e => { e.p.forEach(x => p.add(x)); if (selected) e.s.forEach(x => s.add(x)); });
   p.forEach(x => s.delete(x));
-  document.querySelectorAll('.m').forEach(el => {
-    const id = el.dataset.m;
-    el.classList.toggle('p', p.has(id));
-    el.classList.toggle('s', s.has(id));
+  document.querySelectorAll('.pc[data-m]').forEach(el => {
+    el.classList.toggle('p', p.has(el.dataset.m));
+    el.classList.toggle('s', s.has(el.dataset.m));
   });
-  document.getElementById('viewing').textContent = selected ? list[0].name : `todo el ${current.name.toLowerCase()}`;
-  document.getElementById('showAll').hidden = !selected;
-  document.querySelectorAll('.ex').forEach(el => el.classList.toggle('sel', el.dataset.id === selected));
+  const names = set => [...set].map(x => MUSCLES[x]);
+  const help = names(s);
+  document.getElementById('hits').innerHTML =
+    `<span class="main">${names(p).map(n => `<span>${n}</span>`).join('')}</span>` +
+    (help.length ? `<span class="help">También ayudan: ${help.join(', ').toLowerCase()}</span>` : '') +
+    (selected ? '<button id="showAll">Ver todo el día</button>' : '');
+  document.querySelectorAll('#list > li').forEach(li => {
+    const open = li.dataset.id === selected;
+    li.classList.toggle('open', open);
+    li.querySelector('.row-btn').setAttribute('aria-expanded', open);
+    li.querySelector('.detail').hidden = !open;
+  });
+}
+
+function doseHTML(e, finished) {
+  return finished
+    ? '<span class="row-dose done">Hecho</span>'
+    : `<span class="row-dose">${e.sets} × ${e.reps}<small>${e.unit}</small></span>`;
 }
 
 function updateProgress() {
@@ -492,38 +444,30 @@ function updateProgress() {
     total += e.sets;
     const d = (done[e.id] || []).filter(Boolean).length;
     n += d;
-    const card = document.querySelector(`.ex[data-id="${e.id}"]`);
-    if (card) card.classList.toggle('finished', d >= e.sets);
+    const li = document.querySelector(`#list > li[data-id="${e.id}"]`);
+    if (li) li.querySelector('.row-dose').outerHTML = doseHTML(e, d >= e.sets);
   });
-  document.getElementById('bar').style.width = `${(n / total) * 100}%`;
-  document.getElementById('doneMsg').hidden = n < total;
+  document.getElementById('count').innerHTML = n >= total ? '<b>Sesión terminada</b>' : `${n} de ${total} series`;
 }
 
 function render() {
-  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.day === current.key));
-  document.getElementById('focus').textContent = `${current.name}: ${current.focus}`;
-  const totalSets = current.ex.reduce((a, e) => a + e.sets, 0);
-  document.getElementById('meta').textContent = `${current.ex.length} ejercicios · ${totalSets} series · ≈ ${minutes(current)} min con calentamiento`;
+  tabsEl.querySelectorAll('button').forEach(t => t.setAttribute('aria-selected', t.dataset.day === current.key));
+  document.getElementById('focus').textContent = current.focus;
+  document.getElementById('meta').textContent = `${current.ex.length} ejercicios · unos ${minutes(current)} min`;
   const done = doneFor(current);
-  document.getElementById('list').innerHTML = current.ex.map((e, i) => `
-    <li class="ex" data-id="${e.id}">
-      <button class="ex-head" aria-label="Ver músculos de ${e.name}">
-        <span class="num">${i + 1}</span>
-        <span class="ex-title">
-          <span class="ex-name">${e.name}</span>
-          <div class="ex-gear">${e.gear}</div>
-        </span>
-        <span class="dose">${e.sets} × ${e.reps}<small>${e.unit} · descanso ${e.rest} s</small></span>
+  document.getElementById('list').innerHTML = current.ex.map(e => `
+    <li data-id="${e.id}">
+      <button class="row-btn" aria-expanded="false">
+        <span class="row-main"><span class="row-name">${e.name}</span><span class="row-sub">${e.gear}</span></span>
+        ${doseHTML(e, false)}
+        ${CHEV}
       </button>
-      <div class="ex-body">
-        <div class="chips">
-          ${e.p.map(x => `<span class="chip p">${MUSCLES[x]}</span>`).join('')}
-          ${e.s.map(x => `<span class="chip s">${MUSCLES[x]}</span>`).join('')}
-        </div>
-        <p class="tip">${e.tip}</p>
-        <div class="sets"><span>Series</span>
+      <div class="detail" hidden>
+        <p>${e.tip}</p>
+        <div class="sets">
           ${Array.from({ length: e.sets }, (_, k) => `<button class="set" data-k="${k}" aria-pressed="${!!(done[e.id] || [])[k]}" aria-label="Serie ${k + 1}">${k + 1}</button>`).join('')}
         </div>
+        <span class="rest">Toca cada serie al terminarla · descanso de ${e.rest} s</span>
       </div>
     </li>`).join('');
   paint();
@@ -531,8 +475,8 @@ function render() {
 }
 
 document.getElementById('list').addEventListener('click', e => {
-  const card = e.target.closest('.ex'); if (!card) return;
-  const ex = current.ex.find(x => x.id === card.dataset.id);
+  const li = e.target.closest('li[data-id]'); if (!li) return;
+  const ex = current.ex.find(x => x.id === li.dataset.id);
   const setBtn = e.target.closest('.set');
   if (setBtn) {
     const done = { ...doneFor(current) };
@@ -543,16 +487,24 @@ document.getElementById('list').addEventListener('click', e => {
     saveDone(current, done);
     setBtn.setAttribute('aria-pressed', arr[k]);
     updateProgress();
-    selected = ex.id; paint();
     if (arr[k]) {
       const left = ex.sets - arr.filter(Boolean).length;
-      startTimer(ex.rest, left > 0 ? `${ex.name}: te quedan ${left} serie${left > 1 ? 's' : ''}` : `${ex.name} terminado. Sigue con el próximo.`);
+      startTimer(ex.rest, left > 0 ? `${ex.name}: te ${left > 1 ? 'quedan' : 'queda'} ${left} serie${left > 1 ? 's' : ''}` : `${ex.name} terminado`);
     }
     return;
   }
-  if (e.target.closest('.ex-head')) { selected = selected === ex.id ? null : ex.id; paint(); }
+  if (e.target.closest('.row-btn')) { selected = selected === ex.id ? null : ex.id; paint(); }
 });
-document.getElementById('showAll').addEventListener('click', () => { selected = null; paint(); });
+document.getElementById('hits').addEventListener('click', e => {
+  if (e.target.id === 'showAll') { selected = null; paint(); }
+});
+const warm = document.getElementById('warm');
+warm.querySelector('.row-btn').addEventListener('click', () => {
+  const open = !warm.classList.contains('open');
+  warm.classList.toggle('open', open);
+  warm.querySelector('.row-btn').setAttribute('aria-expanded', open);
+  warm.querySelector('ul').hidden = !open;
+});
 document.getElementById('reset').addEventListener('click', () => { saveDone(current, {}); render(); });
 
 /* --- Temporizador de descanso --- */
@@ -578,7 +530,7 @@ function tick() {
   if (left <= 0) {
     clearInterval(tInt); tInt = null;
     timerEl.classList.add('go');
-    document.getElementById('tlabel').textContent = '¡Vamos! Siguiente serie';
+    document.getElementById('tlabel').textContent = 'Siguiente serie';
     beep();
     setTimeout(() => { if (!tInt) timerEl.hidden = true; }, 4000);
   }
