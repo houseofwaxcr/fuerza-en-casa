@@ -1,4 +1,4 @@
-const CACHE = 'fuerza-20261120184329';
+const CACHE = 'fuerza-20261123193648';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

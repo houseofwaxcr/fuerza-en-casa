@@ -196,7 +196,7 @@ li.open .row-btn { background: var(--group-hi); }
           <ul hidden>
             <li>Marcha en el sitio, 1 minuto</li>
             <li>Círculos de brazos, 30 segundos hacia cada lado</li>
-            <li>10 sentadillas a la silla sin peso</li>
+            <li>10 elevaciones de rodilla de pie, alternando, con una mano en la pared</li>
             <li>10 inclinaciones de cadera sin peso, manos en la cadera y espalda recta</li>
           </ul>
         </li>
@@ -207,6 +207,7 @@ li.open .row-btn { background: var(--group-hi); }
 
       <div class="foot">
         <p>Toca un ejercicio para ver qué músculos usa. Al terminar cada serie, toca su número y empieza el descanso.</p>
+        <p>Por ahora no hay sentadillas ni zancadas, para cuidar la rodilla. Si un ejercicio te duele en la rodilla, sáltalo.</p>
         <p>Las primeras 2 semanas hazlo tal cual. Cuando la última serie te salga fácil, usa la pesa siguiente o añade una serie. Si algo duele de forma punzante, para ese ejercicio.</p>
         <button id="reset">Borrar las series marcadas hoy</button>
       </div>
@@ -234,23 +235,26 @@ const MUSCLES = {
 
 const DAYS = [
   { key: 'lunes', name: 'Lunes', dow: 1, focus: 'Piernas y glúteos', ex: [
-    { id: 'goblet', name: 'Sentadilla a la silla', gear: 'Kettlebell 14 kg al pecho (o mancuerna 15 lb si pesa mucho)', sets: 3, reps: 8, unit: 'reps', rest: 60,
-      p: ['cuadriceps', 'gluteos'], s: ['abdomen', 'lumbar'],
-      tip: 'Ponte delante de una silla con la pesa pegada al pecho. Siéntate despacio, toca la silla y levántate empujando con los talones. Rodillas apuntando hacia los pies.' },
     { id: 'rdl', name: 'Peso muerto rumano', gear: 'Mancuernas 15 lb, una en cada mano', sets: 2, reps: 10, unit: 'reps', rest: 45,
       p: ['isquios', 'gluteos'], s: ['lumbar', 'trapecio'],
-      tip: 'Rodillas apenas dobladas. Lleva la cadera hacia atrás con la espalda recta; las pesas bajan rozando las piernas hasta media espinilla.' },
+      tip: 'Rodillas casi rectas, solo un poco flojas: la rodilla no hace el trabajo. Lleva la cadera hacia atrás con la espalda recta y baja las pesas rozando las piernas hasta las rodillas.' },
     { id: 'puente', name: 'Puente de glúteo', gear: 'Disco 10 lb sobre la cadera, en la esterilla', sets: 2, reps: 12, unit: 'reps', rest: 45,
       p: ['gluteos'], s: ['isquios', 'abdomen'],
-      tip: 'Boca arriba sobre la esterilla, rodillas dobladas y pies apoyados. Sube la cadera apretando glúteos y aguanta 1 segundo arriba. Si el disco molesta, hazlo sin él.' },
+      tip: 'Boca arriba sobre la esterilla, rodillas dobladas y pies apoyados. Sube la cadera apretando glúteos y aguanta 1 segundo arriba. Si la rodilla molesta, aleja un poco los pies del cuerpo.' },
+    { id: 'piernarecta', name: 'Elevación de pierna recta', gear: 'Sin peso, boca arriba en la esterilla', sets: 2, reps: 10, unit: 'por pierna', side: true, rest: 30,
+      p: ['cuadriceps'], s: ['abdomen'],
+      tip: 'Una pierna doblada con el pie apoyado y la otra estirada. Aprieta el muslo de la estirada y súbela hasta la altura de la otra rodilla. Baja despacio. Fortalece el muslo sin doblar la rodilla.' },
+    { id: 'lateral', name: 'Elevación lateral de pierna', gear: 'Sin peso, acostada de lado en la esterilla', sets: 2, reps: 10, unit: 'por pierna', side: true, rest: 30,
+      p: ['gluteos'], s: ['oblicuos'],
+      tip: 'Acostada de lado, la pierna de abajo doblada para no rodar. Sube la pierna de arriba estirada, con la punta del pie mirando al frente, un palmo nada más. Baja despacio. Una cadera fuerte protege la rodilla.' },
     { id: 'talones', name: 'Elevación de talones', gear: 'Mancuernas 10 lb, cerca de una pared', sets: 2, reps: 15, unit: 'reps', rest: 30,
       p: ['pantorrillas'], s: [],
       tip: 'De pie, sube a puntillas despacio y baja. Si te tambaleas, suelta una pesa y apoya esa mano en la pared.' }
   ]},
   { key: 'miercoles', name: 'Miércoles', dow: 3, focus: 'Pecho, espalda y brazos', ex: [
-    { id: 'remo1', name: 'Remo a una mano', gear: 'Mancuerna 15 lb, apoyada en una silla', sets: 3, reps: 10, unit: 'por brazo', side: true, rest: 45,
+    { id: 'remo1', name: 'Remo a una mano', gear: 'Mancuerna 15 lb, con la otra mano en una mesa', sets: 3, reps: 10, unit: 'por brazo', side: true, rest: 45,
       p: ['dorsales'], s: ['biceps', 'trapecio', 'hombros'],
-      tip: 'Mano y rodilla en la silla, espalda plana. Lleva el codo hacia tu cadera, no hacia arriba.' },
+      tip: 'De pie, una mano apoyada en la mesa, pies separados y rodillas un poco flojas. Espalda plana. Lleva el codo hacia tu cadera, no hacia arriba.' },
     { id: 'pressuelo', name: 'Press de pecho en el suelo', gear: 'Mancuernas 10 lb (15 lb cuando sea fácil)', sets: 3, reps: 10, unit: 'reps', rest: 45,
       p: ['pecho'], s: ['triceps', 'hombros'],
       tip: 'Boca arriba en la esterilla, rodillas dobladas. Baja hasta que los codos toquen el suelo y empuja hacia arriba. Trabaja lo mismo que una flexión, sin tener que cargar tu peso.' },
@@ -265,12 +269,12 @@ const DAYS = [
       tip: 'Disco detrás de la cabeza, codos apuntando al techo. Estira los brazos hacia arriba.' }
   ]},
   { key: 'viernes', name: 'Viernes', dow: 5, focus: 'Cuerpo completo y abdomen', ex: [
-    { id: 'pmkb', name: 'Peso muerto con kettlebell', gear: 'Kettlebell 14 kg', sets: 3, reps: 10, unit: 'reps', rest: 60,
-      p: ['gluteos', 'isquios'], s: ['lumbar', 'cuadriceps', 'trapecio'],
-      tip: 'Kettlebell en el suelo entre los pies. Lleva la cadera hacia atrás con la espalda recta, agárrala y levántate apretando glúteos. Es la base del swing: cuando te salga fácil, te lo cambio por swing.' },
-    { id: 'sentpress', name: 'Sentadilla a la silla con press', gear: 'Mancuernas 5 lb', sets: 2, reps: 10, unit: 'reps', rest: 45,
-      p: ['cuadriceps', 'hombros'], s: ['gluteos', 'triceps'],
-      tip: 'Pesas a la altura de los hombros. Siéntate en la silla y, al levantarte, empuja las pesas sobre la cabeza.' },
+    { id: 'pmkb', name: 'Peso muerto rumano con kettlebell', gear: 'Kettlebell 14 kg con las dos manos', sets: 3, reps: 10, unit: 'reps', rest: 60,
+      p: ['gluteos', 'isquios'], s: ['lumbar', 'trapecio'],
+      tip: 'De pie con la kettlebell colgando delante. Rodillas casi rectas. Lleva la cadera hacia atrás con la espalda recta hasta que la pesa llegue a las rodillas, y sube apretando glúteos.' },
+    { id: 'pressh2', name: 'Press de hombros sentada', gear: 'Mancuernas 5 lb', sets: 2, reps: 10, unit: 'reps', rest: 45,
+      p: ['hombros'], s: ['triceps', 'trapecio'],
+      tip: 'Siéntate derecha con las pesas a la altura de los hombros. Empújalas sobre la cabeza y baja despacio.' },
     { id: 'remo2', name: 'Remo inclinado', gear: 'Mancuernas 10 lb', sets: 2, reps: 12, unit: 'reps', rest: 45,
       p: ['dorsales', 'trapecio'], s: ['biceps', 'lumbar'],
       tip: 'Inclina el torso hacia delante con la espalda recta y lleva las dos pesas hacia el ombligo.' },
